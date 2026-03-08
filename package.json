@@ -1,0 +1,17 @@
+{
+  "name": "music-app-lucida-v2",
+  "private": true,
+  "version": "2.0.0",
+  "description": "Refactored Lucida music app with Nuxt frontend and modular API backend",
+  "workspaces": [
+    "apps/api",
+    "apps/web"
+  ],
+  "scripts": {
+    "dev": "powershell -ExecutionPolicy Bypass -File dev.ps1",
+    "dev:api": "npm run dev -w @lucida/api",
+    "dev:web": "npm run dev -w @lucida/web -- --port 3001",
+    "build": "npm run build -w @lucida/api && npm run build -w @lucida/web",
+    "start": "npm run start -w @lucida/api"
+  }
+}

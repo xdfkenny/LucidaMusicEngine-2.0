@@ -1,0 +1,30 @@
+{
+  "name": "@lucida/web",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev --port 3001",
+    "build": "nuxt build",
+    "start": "nuxt start"
+  },
+  "dependencies": {
+    "@nuxt/kit": "^3.16.2",
+    "@nuxtjs/tailwindcss": "^6.14.0",
+    "@pinia/nuxt": "^0.11.3",
+    "axios": "^1.13.6",
+    "cheerio": "^1.2.0",
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "fs-extra": "^11.3.4",
+    "json5": "^2.2.3",
+    "lucida": "^2.0.0-54",
+    "nuxt": "^3.16.2",
+    "pinia": "^3.0.4",
+    "pino": "^9.14.0",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4"
+  }
+}

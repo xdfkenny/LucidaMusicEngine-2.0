@@ -1,0 +1,121 @@
+{
+  "info": {
+    "success": true,
+    "type": "track",
+    "url": "http://www.tidal.com/track/498374608",
+    "id": 498374608,
+    "title": "Vivarium",
+    "durationMs": 243000,
+    "artists": [
+      {
+        "id": 24725694,
+        "url": "https://www.tidal.com/artist/24725694",
+        "name": "Ado",
+        "pictures": [
+          "https://resources.tidal.com/images/0198a07b/8ee7/433a/b5f0/d1afbd334e3b/160x160.jpg",
+          "https://resources.tidal.com/images/0198a07b/8ee7/433a/b5f0/d1afbd334e3b/320x320.jpg",
+          "https://resources.tidal.com/images/0198a07b/8ee7/433a/b5f0/d1afbd334e3b/750x750.jpg"
+        ]
+      }
+    ],
+    "album": {
+      "id": 498374607,
+      "url": "http://www.tidal.com/album/498374607",
+      "title": "Vivarium",
+      "coverArtwork": [
+        {
+          "url": "https://resources.tidal.com/images/e2f2e775/978d/48f7/961d/877dbe435632/160x160.jpg",
+          "width": 160,
+          "height": 160
+        },
+        {
+          "url": "https://resources.tidal.com/images/e2f2e775/978d/48f7/961d/877dbe435632/320x320.jpg",
+          "width": 320,
+          "height": 320
+        },
+        {
+          "url": "https://resources.tidal.com/images/e2f2e775/978d/48f7/961d/877dbe435632/1280x1280.jpg",
+          "width": 1280,
+          "height": 1280
+        }
+      ],
+      "upc": "00199957388412",
+      "artists": [
+        {
+          "id": 24725694,
+          "url": "https://www.tidal.com/artist/24725694",
+          "name": "Ado",
+          "pictures": [
+            "https://resources.tidal.com/images/0198a07b/8ee7/433a/b5f0/d1afbd334e3b/160x160.jpg",
+            "https://resources.tidal.com/images/0198a07b/8ee7/433a/b5f0/d1afbd334e3b/320x320.jpg",
+            "https://resources.tidal.com/images/0198a07b/8ee7/433a/b5f0/d1afbd334e3b/750x750.jpg"
+          ]
+        }
+      ],
+      "trackCount": 1,
+      "discCount": 1,
+      "releaseDate": "2026-02-18T00:00:00.000Z"
+    },
+    "composers": [
+      "Ado"
+    ],
+    "lyricists": [
+      "Ado"
+    ],
+    "isrc": "JPPO02600259",
+    "copyright": "℗ 2026 UNIVERSAL MUSIC LLC",
+    "trackNumber": 1,
+    "discNumber": 1,
+    "stats": {
+      "account": "US02",
+      "country": "US",
+      "service": "tidal",
+      "cache": false
+    },
+    "fromServer": true,
+    "fromServerName": "hund"
+  },
+  "download": "https://tidal.com/track/498374608",
+  "accounts": [
+    {
+      "id": "US00",
+      "simple": "United States",
+      "type": "token"
+    },
+    {
+      "id": "US01",
+      "simple": "United States",
+      "type": "token"
+    },
+    {
+      "id": "US02",
+      "simple": "United States",
+      "type": "token"
+    },
+    {
+      "id": "US03",
+      "simple": "United States",
+      "type": "token"
+    },
+    {
+      "id": "BE00",
+      "simple": "Belgium",
+      "type": "token"
+    }
+  ],
+  "countriesPerService": [
+    {
+      "code": "US",
+      "label": "United States"
+    },
+    {
+      "code": "BE",
+      "label": "Belgium"
+    }
+  ],
+  "originalService": "tidal",
+  "mode": "url",
+  "selectedCountry": "US",
+  "token": "YUVWVldHRndNbWMwVm1SWU5teElWMjFvUkV4S1dHRTFaRGxW",
+  "tokenExpiry": 1773010860
+}
