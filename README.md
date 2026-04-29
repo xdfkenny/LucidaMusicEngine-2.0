@@ -49,20 +49,7 @@ npm run build
 - **Storage model**: **in-memory** job tracking + local filesystem downloads tree
 - **Compatibility**: Legacy endpoints kept active (`/search`, `/lucidadw`, `/status/:downloadId`, `/downloads`)
 
-```text
-[Nuxt Workstation UI]
-   |  (/ , /home, /downloads, /console, /library)
-   v
-[API Gateway: Express server]
-   |------> [Search Module] ---------> [Lucida Search/Source Endpoints]
-   |------> [Downloads Module] ------> [Lucida Downloader Pipeline]
-   |                 |                         |
-   |                 v                         v
-   |           [In-memory Job Store]      [Local downloads/ filesystem]
-   |------> [Files Module] -----------> [Artist/Album/Track tree + covers]
-   |------> [Console Stream Module] ---> [Realtime event feed]
-   `------> [Health Module] ----------> [Runtime + FS readiness checks]
-```
+<p align="center"><img src="public\image.png" width="100%" /></p>
 
 ## Documentation
 
