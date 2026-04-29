@@ -1,4 +1,4 @@
-<p align="center"><img src="https://github.com/xdfkenny/LucidaMusicEngine-2.0/blob/main/public/Astrahye%20Veylora.svg?raw=true" width="100%" /></p>
+<p align="center"><img src="public\banner\image.png" width="100%" /></p>
 
 <h1 align="center">Lucida Music Engine 2.0</h1>
 
