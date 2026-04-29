@@ -17,6 +17,11 @@ import { createSearchRouter } from "./modules/search/search-controller.js";
 import { SearchService } from "./modules/search/search-service.js";
 
 const app = express();
+
+// Runtime environment checks
+if (typeof globalThis.fetch === 'undefined') {
+  console.warn('[Server] `globalThis.fetch` is not available. Use Node >=18 or provide a fetch polyfill. Some downstream features may fail.');
+}
 const consoleService = new ConsoleService({ bufferSize: 2000 });
 const metadataService = new MetadataService({ consoleService });
 const searchService = new SearchService({ consoleService, metadataService });

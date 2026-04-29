@@ -84,9 +84,10 @@ export const useSearchStore = defineStore("search", () => {
                 downloadOptions.baka = false;
             }
         } catch (e: any) {
-            console.error("Search failed, using mock data", e);
+            console.error("Search failed:", e);
             error.value = e?.data?.error ?? e?.message ?? "Search failed";
-            results.value = getMockResults(query.value.trim());
+            // Do not silently fallback to mock data; keep results empty so UI can show the error.
+            results.value = [];
         } finally {
             isSearching.value = false;
         }

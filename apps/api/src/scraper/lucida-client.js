@@ -2,6 +2,21 @@
 import { env } from "../config/env.js";
 import { httpClient } from "../lib/http-client.js";
 
+async function retryAsync(fn, attempts = 3, delayMs = 800) {
+  let lastErr;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await fn();
+    } catch (e) {
+      lastErr = e;
+      const wait = delayMs * Math.pow(2, i);
+      console.warn(`[lucida-client] Attempt ${i + 1} failed. Retrying in ${wait}ms: ${e.message}`);
+      await new Promise(r => setTimeout(r, wait));
+    }
+  }
+  throw lastErr;
+}
+
 function parseEnclosedValue(text, startMarker, endMarker) {
   const startIdx = text.indexOf(startMarker);
   if (startIdx === -1) throw new Error(`Missing marker: ${startMarker}`);
@@ -15,21 +30,21 @@ function parseEnclosedValue(text, startMarker, endMarker) {
 
 export class LucidaClient {
   async fetchSearchHtml(query) {
-    const response = await httpClient.get(`${env.lucidaBaseUrl}/search`, {
+    const response = await retryAsync(() => httpClient.get(`${env.lucidaBaseUrl}/search`, {
       params: {
         service: "tidal",
         country: env.defaultCountry,
         query,
       },
-    });
+    }), 3, 800);
 
     return response.data;
   }
 
   async resolveItemPage(url, country = env.defaultCountry) {
-    const response = await httpClient.get(`${env.lucidaBaseUrl}/`, {
+    const response = await retryAsync(() => httpClient.get(`${env.lucidaBaseUrl}/`, {
       params: { url, country },
-    });
+    }), 3, 800);
 
     return response.data;
   }
@@ -101,7 +116,7 @@ export class LucidaClient {
   }
 
   async requestTrackHandoff({ country, metadata, isPrivate, tokenExpiry, csrf, csrfFallback, url }) {
-    const response = await httpClient.post(`${env.lucidaBaseUrl}/api/load?url=%2Fapi%2Ffetch%2Fstream%2Fv2`, {
+    const response = await retryAsync(() => httpClient.post(`${env.lucidaBaseUrl}/api/load?url=%2Fapi%2Ffetch%2Fstream%2Fv2`, {
       account: {
         id: country,
         type: "country",
@@ -118,7 +133,7 @@ export class LucidaClient {
       },
       upload: { enabled: false },
       url,
-    });
+    }), 3, 800);
 
     if (response.data?.error) {
       throw new Error(response.data.error);
@@ -128,13 +143,13 @@ export class LucidaClient {
   }
 
   async getRequestStatus(handoff) {
-    const response = await httpClient.get(`https://${handoff.server}.lucida.to/api/fetch/request/${handoff.handoff}`);
+    const response = await retryAsync(() => httpClient.get(`https://${handoff.server}.lucida.to/api/fetch/request/${handoff.handoff}`), 4, 700);
     return response.data;
   }
 
   async downloadRequestFile(handoff) {
-    return httpClient.get(`https://${handoff.server}.lucida.to/api/fetch/request/${handoff.handoff}/download`, {
+    return retryAsync(() => httpClient.get(`https://${handoff.server}.lucida.to/api/fetch/request/${handoff.handoff}/download`, {
       responseType: "stream",
-    });
+    }), 3, 800);
   }
 }

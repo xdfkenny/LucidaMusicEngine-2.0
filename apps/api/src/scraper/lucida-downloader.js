@@ -5,6 +5,21 @@ import { LucidaClient } from "./lucida-client.js";
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+async function retryAsync(fn, attempts = 3, delayMs = 700) {
+  let lastErr;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await fn();
+    } catch (e) {
+      lastErr = e;
+      const wait = delayMs * Math.pow(2, i);
+      console.warn(`[LucidaDownloader] Attempt ${i + 1} failed. Retrying in ${wait}ms: ${e.message}`);
+      await delay(wait);
+    }
+  }
+  throw lastErr;
+}
+
 function sanitizeFileName(input) {
   return String(input ?? "unknown").replace(/[\\/:*?"<>|]/g, "_").trim();
 }
@@ -306,7 +321,7 @@ export class LucidaDownloader {
       }
     }
 
-    const handoff = await this.client.requestTrackHandoff({
+    const handoff = await retryAsync(() => this.client.requestTrackHandoff({
       country: this.options.country,
       metadata: this.options.metadata,
       isPrivate: this.options.isPrivate,
@@ -314,11 +329,11 @@ export class LucidaDownloader {
       csrf: track.csrf,
       csrfFallback: track.csrf_fallback,
       url: track.url,
-    });
+    }), 3, 800);
 
     await this.waitForHandoff(handoff);
 
-    const response = await this.client.downloadRequestFile(handoff);
+    const response = await retryAsync(() => this.client.downloadRequestFile(handoff), 3, 800);
     const contentType = response.headers['content-type'] || '';
     let ext = 'flac';
     if (contentType.includes('mp4') || contentType.includes('m4a')) ext = 'm4a';
@@ -410,10 +425,14 @@ export class LucidaDownloader {
     }
 
     const cleanUrl = url.includes("qobuz") ? url.replace(/_[^_]+\.jpg$/i, "_org.jpg") : url;
-    const response = await fetch(cleanUrl);
-    if (!response.ok) throw new Error("Failed to download cover art");
+    const resp = await retryAsync(async () => {
+      if (typeof fetch === 'undefined') throw new Error('global fetch not available');
+      const r = await fetch(cleanUrl);
+      if (!r.ok) throw new Error(`Cover download failed: ${r.status}`);
+      return r;
+    }, 3, 500);
 
-    const buffer = Buffer.from(await response.arrayBuffer());
+    const buffer = Buffer.from(await resp.arrayBuffer());
     await fs.writeFile(targetPath, buffer);
   }
 }

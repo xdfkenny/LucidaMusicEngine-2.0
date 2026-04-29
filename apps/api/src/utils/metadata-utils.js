@@ -1,19 +1,34 @@
-import { exec } from 'child_process';
+import { exec, spawnSync } from 'child_process';
 import { promisify } from 'util';
 import fs from 'fs-extra';
 import path from 'path';
 
 const execAsync = promisify(exec);
 
+
+function ffmpegAvailable() {
+  try {
+    const res = spawnSync('ffmpeg', ['-version'], { windowsHide: true, timeout: 2000 });
+    return res && res.status === 0;
+  } catch (e) {
+    return false;
+  }
+}
 /**
  * Embed cover art into an audio file using FFmpeg
  * @param {string} audioPath - Path to the audio file
  * @param {string} coverPath - Path to the image file
  * @param {Object} metadata - Optional metadata (title, artist, album)
  */
+
 export async function embedCoverArt(audioPath, coverPath, metadata = {}) {
   if (!await fs.exists(audioPath) || !await fs.exists(coverPath)) {
     console.warn(`[MetadataUtils] Missing files: audio=${audioPath}, cover=${coverPath}`);
+    return false;
+  }
+
+  if (!ffmpegAvailable()) {
+    console.error('[MetadataUtils] FFmpeg not found in PATH. Install FFmpeg and ensure it is available in the system PATH.');
     return false;
   }
 
